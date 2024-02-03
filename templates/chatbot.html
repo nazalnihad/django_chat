@@ -81,6 +81,7 @@
             </div>
           </div>
         </li> -->
+        {%if chats %}
         {%for chat in chats %}
           {%if chat.user == request.user%}
         <li class="message sent">
@@ -106,6 +107,9 @@
       </li>
           {%endif%}
         {%endfor%}
+        {% else %}
+    <p>Login or register to see chats</p>
+      {%endif%}
       </ul>
 
     </div>

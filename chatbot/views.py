@@ -24,15 +24,19 @@ def ai(prompt):
 
 
 def chatbot(request):
-    chats = Chat.objects.filter(user=request.user)
-    if (request.method == 'POST'):
-        message = request.POST.get('message')
-        response = ai(message)
+    if request.user.is_authenticated:
+        chats = Chat.objects.filter(user=request.user)
+        if (request.method == 'POST'):
+            message = request.POST.get('message')
+            response = ai(message)
 
-        chat = Chat(user=request.user,message=message,response=response,created_at=timezone.now())
-        chat.save()
-        return JsonResponse({'message': message, 'response': response})
-    return render(request, 'chatbot.html',{'chats':chats})
+            chat = Chat(user=request.user, message=message, response=response, created_at=timezone.now())
+            chat.save()
+            return JsonResponse({'message': message, 'response': response})
+        return render(request, 'chatbot.html', {'chats': chats})
+    else:
+        return render(request, 'chatbot.html')
+
 
 
 def login(request):
